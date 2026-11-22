@@ -1,271 +1,222 @@
-💳 Pre-Delinquency Risk Engine
-A hybrid AI-powered banking risk analytics system that predicts the probability of customer delinquency using:
-•	Tree-based Machine Learning Models
-•	Sequential Deep Learning (LSTM)
-•	Behavioral Feature Engineering
-•	SHAP Explainability
-•	Streamlit Dashboard
-The system analyzes historical customer financial behavior and estimates:
-•	Probability of Delinquency (PD)
-•	Risk Bucket
-•	Expected Loss
-•	Key Risk Drivers
-________________________________________
-🚀 Project Overview
-Traditional credit scoring systems often rely only on static customer snapshots.
-This project improves upon that by using:
-•	historical behavioral sequences,
-•	financial stress trends,
-•	repayment patterns,
-•	utilization deterioration,
-•	and temporal learning using LSTM.
-The final system behaves closer to real-world banking risk engines.
-________________________________________
+# EarlyShield — Pre-Delinquency Risk Engine
 
+**A hybrid machine learning system for predicting customer delinquency risk from historical financial behavior.**
 
-🏗 Architecture
-Historical Customer Dataset
-            ↓
-Feature Engineering
-            ↓
-Tree Models + LSTM
-            ↓
-Hybrid Ensemble
-            ↓
-Probability Calibration
-            ↓
-PD Prediction
-            ↓
-Expected Loss Estimation
-            ↓
-SHAP Explainability
-            ↓
-Streamlit Dashboard
-________________________________________
-🧠 Models Used
-Tree Models
-•	XGBoost
-•	LightGBM
-•	CatBoost
-These models learn:
-•	nonlinear patterns,
-•	threshold-based behavior,
-•	tabular financial relationships.
+EarlyShield combines gradient-boosted decision trees, sequential deep learning, behavioral feature engineering, and explainability to support early identification of potential financial stress.
 
-________________________________________
-LSTM (Long Short-Term Memory)
-The LSTM model learns:
-•	sequential customer behavior,
-•	month-wise financial deterioration,
-•	temporal repayment patterns,
-•	utilization trends,
-•	behavioral evolution.
-Example:
-Jan → Feb → Mar → Apr
-0.20 → 0.35 → 0.60 → 0.90 utilization
-The model detects worsening financial stress over time.
-________________________________________
-📊 Key Features Used
-Raw Features
-•	Credit Card Utilization
-•	EMI Amount
-•	Monthly Income
-•	Salary Delay Days
-•	Weekly Balance Change
-•	ATM Withdrawal Amount
-•	Total Monthly Obligation
-•	Active Products Count
-________________________________________
-Engineered Features
-•	Lag Features
-•	Rolling Means
-•	Utilization Trends
-•	Delta Features
-•	Persistence Indicators
-•	Ratio Features
+> **Project scope:** A prototype built using synthetic customer financial data for experimentation and demonstration. Not validated for real-world lending decisions.
 
-Examples:
-credit_card_utilization_lag1
-credit_card_utilization_delta_1
-emi_to_income_ratio_mean_3m
-utilization_high_persist_3m
-________________________________________
-📈 Financial Risk Metrics
-EMI-to-Income Ratio
-EMI Amount / Monthly Income
-Measures customer repayment burden.
-________________________________________
-Obligation-to-Income Ratio
-Total Monthly Obligation / Monthly Income
-Captures overall debt stress.
-________________________________________
-⚠ Risk Prediction Workflow
-Step 1
-Load historical customer financial records.
-Step 2
-Append current month financial behavior.
-Step 3
-Generate engineered behavioral features.
-Step 4
-Prepare:
-•	Tree Model Inputs
-•	LSTM Sequential Inputs
-Step 5
-Generate predictions from:
-•	XGBoost
-•	LightGBM
-•	CatBoost
-•	LSTM
-Step 6
-Blend predictions using hybrid ensemble.
-Step 7
-Calibrate final probabilities.
-Step 8
-Generate:
-•	Probability of Delinquency
-•	Risk Bucket
-•	Expected Loss
-________________________________________
-🔍 Explainability
-The project uses SHAP (SHapley Additive exPlanations) for model explainability.
-Generated visualizations:
-•	SHAP Waterfall Plot
-•	Top Feature Importance Plot
-These plots explain:
-•	why the model predicted risk,
-•	which features increased risk,
-•	which features reduced risk.
-________________________________________
-🖥 Streamlit Dashboard Features
-The frontend dashboard provides:
-•	Customer selection
-•	Historical customer sequence visualization
-•	Current month financial input
-•	Dynamic risk prediction
-•	Expected loss estimation
-•	Risk interpretation
-•	SHAP explainability display
-________________________________________
-📂 Project Structure
-PD_Model/
-│
-├── content/
-│   └── models/
-│       ├── xgb_model.pkl
-│       ├── lgb_model.pkl
-│       ├── cat_model.cbm
-│       ├── lstm_model.pt
-│       └── calibrator.pkl
-│
-├── shap_plots/
-│   ├── shap_waterfall.png
-│   └── shap_top_features.png
-│
-├── financial_stress_full_bank_grade_dataset.csv
-│
+## Project Overview
+
+Traditional credit risk models often rely on static customer information. EarlyShield explores how historical financial behavior and month-to-month changes can be incorporated into risk prediction.
+
+The system estimates:
+
+- **Probability of Delinquency (PD):** Estimated likelihood of delinquency
+- **Risk Category:** Low, medium, or high
+- **Expected Loss:** An illustrative estimate based on PD, LGD, and EAD
+- **Risk Drivers:** Feature-level explanations using SHAP
+
+## System Architecture
+
+```text
+Historical Customer Financial Data
+                |
+                v
+       Feature Engineering
+                |
+        +-------+-------+
+        |               |
+        v               v
+   Tree Models      LSTM Model
+   - XGBoost        - Temporal Inputs
+   - LightGBM       - Sequential Patterns
+   - CatBoost
+        |               |
+        +-------+-------+
+                |
+                v
+         Hybrid Ensemble
+                |
+                v
+      Probability Calibration
+                |
+                v
+       Delinquency Risk Score
+                |
+        +-------+-------+
+        |               |
+        v               v
+   Risk Category    Expected Loss
+                |
+                v
+       Streamlit Dashboard
+```
+
+## Machine Learning Models
+
+| Model | Purpose |
+|---|---|
+| XGBoost | Gradient-boosted tree classification |
+| LightGBM | Efficient gradient-boosted tree classification |
+| CatBoost | Gradient-boosted tree classification |
+| LSTM (PyTorch) | Learning patterns from historical customer sequences |
+
+The project includes saved model artifacts and a hybrid prediction pipeline combining tree-based and sequential predictions.
+
+## Behavioral Feature Engineering
+
+The feature engineering module contains transformations including:
+
+- Lag features
+- Rolling statistics
+- Month-to-month changes
+- Utilization trends
+- Financial burden ratios
+- Persistence indicators
+
+Examples include credit utilization changes, repayment burden, and historical financial stress patterns.
+
+The engineered feature set is broader than the subset of features used by the saved trained models.
+
+## Prediction Workflow
+
+1. Load historical customer financial records.
+2. Incorporate current financial inputs.
+3. Generate behavioral features.
+4. Prepare tabular and sequential model inputs.
+5. Generate predictions from tree models and LSTM.
+6. Combine model predictions using a hybrid ensemble.
+7. Apply probability calibration.
+8. Calculate risk category and expected loss.
+
+## Explainability
+
+The project includes SHAP-based analysis to help interpret model behavior, including feature importance and waterfall visualizations.
+
+The current dashboard uses pre-generated explanations. Generating explanations dynamically for each selected customer is a future improvement.
+
+## Streamlit Dashboard
+
+The dashboard code supports:
+
+- Customer selection
+- Historical financial behavior visualization
+- Financial input controls
+- Delinquency risk estimation
+- Risk categorization
+- Expected loss calculation
+- Display of SHAP explanations
+
+## Repository Structure
+
+```text
+earlysheild/
 ├── app.py
-├── inference.py
-├── predictor.py
 ├── feature_engineering.py
+├── predictor.py
 ├── model_loader.py
 ├── risk_engine.py
+├── inference.py
+├── test_ui.py
+├── notebook/
+│   └── model_training.ipynb
+├── content/
+│   └── models/
+├── sample_data/
+├── financial_stress_full_bank_grade_dataset.csv
 ├── requirements.txt
+├── .gitignore
 └── README.md
-________________________________________
-⚙ Installation
-1. Clone Repository
-git clone <repository_url>
-2. Move Into Project
-cd PD_Model
-3. Create Virtual Environment
-Windows
-python -m venv venv
-Activate:
-.\venv\Scripts\activate
-________________________________________
-📦 Install Dependencies
-pip install -r requirements.txt
-________________________________________
-▶ Running the Project
-Generate SHAP Plots
-python inference.py
-This generates:
-shap_plots/shap_waterfall.png
-shap_plots/shap_top_features.png
-________________________________________
+```
 
-Launch Streamlit Dashboard
-streamlit run app.py
-or:
+## Installation
+
+Clone the repository:
+
+```bash
+git clone https://github.com/divyamjain015/earlysheild.git
+cd earlysheild
+```
+
+Create and activate a virtual environment on Windows:
+
+```powershell
+python -m venv venv
+.\venv\Scripts\Activate.ps1
+```
+
+Install dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+Launch the dashboard:
+
+```bash
 python -m streamlit run app.py
-Open browser:
-http://localhost:8501
-________________________________________
-📊 Risk Buckets
-PD Range	Risk Level
-0.00 – 0.20	LOW
-0.20 – 0.50	MEDIUM
-> 0.50	HIGH
-________________________________________
-💰 Expected Loss Formula
-Expected Loss = PD × LGD × EAD
+```
+
+Open `http://localhost:8501` if the browser does not open automatically.
+
+**Note:** The project requires compatible Python and library versions, along with its saved model artifacts. Installation and end-to-end execution are being verified.
+
+## Risk Metrics
+
+### Probability of Delinquency
+
+The model generates a probability score between 0 and 1.
+
+### Expected Loss
+
+\[
+EL = PD \times LGD \times EAD
+\]
+
 Where:
-•	PD = Probability of Delinquency
-•	LGD = Loss Given Default
-•	EAD = Exposure At Default
-________________________________________
-🧪 Model Validation
-The project validates predictions using:
-•	behavioral sanity testing,
-•	monotonicity testing,
-•	trend-based testing,
-•	SHAP validation,
-•	financial logic consistency.
-Example:
-•	increasing utilization should generally increase risk,
-•	worsening salary delays should increase PD,
-•	stable customers should receive lower risk scores.
-________________________________________
-🛠 Tech Stack
-Backend / ML
-•	Python
-•	Pandas
-•	NumPy
-•	Scikit-learn
-•	XGBoost
-•	LightGBM
-•	CatBoost
-•	PyTorch
-•	SHAP
-________________________________________
-Frontend
-•	Streamlit
-________________________________________
-Visualization
-•	Matplotlib
-•	SHAP
-________________________________________
-🔮 Future Improvements
-Potential production-level extensions:
-•	Dynamic SHAP generation
-•	Real-time streaming predictions
-•	Database integration
-•	Model monitoring and drift detection
-•	FastAPI deployment
-•	Docker containerization
-•	Cloud deployment (AWS/GCP/Azure)
-•	Automated retraining pipelines
-•	Real-time transaction analysis
-________________________________________
-📌 Key Highlights
-✅ Hybrid Ensemble Architecture
-✅ Sequential Behavioral Modeling
-✅ Banking Risk Analytics
-✅ SHAP Explainability
-✅ Streamlit Interactive Dashboard
-✅ Expected Loss Estimation
-✅ Financial Feature Engineering
-✅ Temporal Customer Analysis
-________________________________________
-👨‍💻 Author
-Developed as an AI-powered banking risk analytics and pre-delinquency prediction system.
+
+- **PD:** Probability of Delinquency
+- **LGD:** Loss Given Default
+- **EAD:** Exposure at Default
+
+Expected loss values in this prototype are illustrative and depend on the selected assumptions.
+
+## Evaluation Status
+
+The repository contains a training notebook and model artifacts. A reproducible evaluation using a clean, independent test set is planned.
+
+Final ROC-AUC and performance optimization claims will be documented once they have been independently verified.
+
+## Tech Stack
+
+**Language:** Python
+
+**Machine Learning:** XGBoost, LightGBM, CatBoost, Scikit-learn
+
+**Deep Learning:** PyTorch
+
+**Data Processing:** Pandas, NumPy
+
+**Explainability:** SHAP
+
+**Dashboard:** Streamlit
+
+**Visualization:** Matplotlib
+
+## Future Improvements
+
+- Independent model evaluation and benchmark reporting
+- Customer-specific SHAP explanations
+- Automated tests and continuous integration
+- Model monitoring and drift detection
+- API-based inference
+- Deployment and containerization
+
+## Acknowledgments
+
+Built upon the original pre-delinquency risk engine codebase. Original commit attribution is preserved in the Git history. Subsequent improvements and validation are tracked through new commits.
+
+## Disclaimer
+
+EarlyShield is an educational machine learning prototype using synthetic financial data. Its predictions are not intended for actual credit approval, lending, or financial decision-making.

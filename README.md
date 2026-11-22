@@ -1,178 +1,243 @@
-# EarlyShield — Pre-Delinquency Risk Engine
+# EarlyShield — AI-Powered Pre-Delinquency Risk Engine
 
-**A hybrid machine learning system for predicting customer delinquency risk from historical financial behavior.**
+### Predicting financial stress before delinquency using Machine Learning and Deep Learning
 
-EarlyShield combines gradient-boosted decision trees, sequential deep learning, behavioral feature engineering, and explainability to support early identification of potential financial stress.
+EarlyShield is a machine learning-based financial risk analytics system designed to identify customers exhibiting early signs of potential delinquency.
 
-> **Project scope:** A prototype built using synthetic customer financial data for experimentation and demonstration. Not validated for real-world lending decisions.
+It combines **XGBoost, LightGBM, CatBoost, PyTorch LSTM, behavioral feature engineering, probability calibration, and SHAP explainability** to analyze financial behavior and estimate delinquency risk.
 
-## Project Overview
+The project includes an interactive **Streamlit dashboard**, model evaluation reports, and a reproducible validation pipeline.
 
-Traditional credit risk models often rely on static customer information. EarlyShield explores how historical financial behavior and month-to-month changes can be incorporated into risk prediction.
+> **Dataset:** 100% synthetic financial data. This is an educational prototype, not a production-ready credit decision system.
 
-The system estimates:
+---
 
-- **Probability of Delinquency (PD):** Estimated likelihood of delinquency
-- **Risk Category:** Low, medium, or high
-- **Expected Loss:** An illustrative estimate based on PD, LGD, and EAD
-- **Risk Drivers:** Feature-level explanations using SHAP
+## Key Results
+
+Results recorded by the project's validation pipeline:
+
+| Metric | Reported result |
+|---|---|
+| XGBoost Test ROC-AUC | **0.8137** |
+| LightGBM Test PR-AUC | **0.7222** |
+| High-Recall Configuration | **93.5% recall** at threshold 0.25 |
+| Calibrated Expected Calibration Error | **0.0237** |
+| Behavioral Feature Space Explored | **73 features** |
+| Functional Tests | **10/10 passed** |
+| Optimized Preprocessing Time | **14.6 ms** |
+| Estimated Preprocessing Speedup | **224×** |
+| Batch Inference Throughput | **238,897 customers/sec** |
+
+**Evaluation notes:**
+
+- Results were obtained on a fully synthetic dataset.
+- Model evaluation uses customer-grouped train, validation and test partitions.
+- The 73-feature configuration was evaluated in an ablation study; it is not necessarily the feature configuration used by the deployed saved models.
+- The 224× preprocessing speedup compares a measured optimized runtime against an estimated original runtime. It is not a directly measured end-to-end inference speedup.
+- Results are documented in `reports/` and have not been independently reproduced outside the reported evaluation environment.
+
+---
+
+## Problem Statement
+
+Traditional credit scoring often relies on static financial snapshots, which may overlook emerging changes in customer behavior.
+
+EarlyShield explores early-warning indicators such as:
+
+- Increasing credit utilization
+- Delayed salary payments
+- Rising EMI-to-income ratios
+- Declining account balances
+- Changes in repayment behavior
+- Persistent financial stress over multiple months
+
+By analyzing historical financial behavior, the system estimates a customer's **Probability of Delinquency (PD)** before a potential missed payment.
+
+---
 
 ## System Architecture
 
 ```text
-Historical Customer Financial Data
-                |
-                v
-       Feature Engineering
-                |
-        +-------+-------+
-        |               |
-        v               v
-   Tree Models      LSTM Model
-   - XGBoost        - Temporal Inputs
-   - LightGBM       - Sequential Patterns
-   - CatBoost
-        |               |
-        +-------+-------+
-                |
-                v
-         Hybrid Ensemble
-                |
-                v
-      Probability Calibration
-                |
-                v
-       Delinquency Risk Score
-                |
-        +-------+-------+
-        |               |
-        v               v
-   Risk Category    Expected Loss
-                |
-                v
-       Streamlit Dashboard
+       Historical Financial Data
+                  |
+                  v
+         Data Preprocessing
+                  |
+                  v
+       Behavioral Feature Engineering
+       - Lag and Delta Features
+       - Rolling Statistics
+       - Financial Stress Ratios
+       - Persistence Indicators
+                  |
+          +-------+-------+
+          |               |
+          v               v
+     Tree Models      Sequential Model
+     XGBoost          PyTorch LSTM
+     LightGBM
+     CatBoost
+          |               |
+          +-------+-------+
+                  |
+                  v
+           Ensemble Prediction
+                  |
+                  v
+         Probability Calibration
+                  |
+                  v
+         Delinquency Probability
+                  |
+          +-------+-------+
+          |               |
+          v               v
+     Risk Category    Expected Loss
+                  |
+                  v
+          Streamlit Dashboard
 ```
+
+The validation pipeline also evaluates standalone models and alternative ensemble configurations. The reported validation-selected hybrid configuration assigned full weight to the tree ensemble, so the LSTM did not improve that configuration's final score.
+
+---
 
 ## Machine Learning Models
 
-| Model | Purpose |
-|---|---|
-| XGBoost | Gradient-boosted tree classification |
-| LightGBM | Efficient gradient-boosted tree classification |
-| CatBoost | Gradient-boosted tree classification |
-| LSTM (PyTorch) | Learning patterns from historical customer sequences |
+| Model | Role | Test ROC-AUC |
+|---|---|---|
+| Logistic Regression | Baseline classifier | 0.8072 |
+| Random Forest | Baseline ensemble | 0.8100 |
+| **XGBoost** | Gradient-boosted decision trees | **0.8137** |
+| LightGBM | Efficient gradient boosting | 0.8135 |
+| CatBoost | Gradient boosting | 0.8117 |
+| PyTorch LSTM | Sequential behavioral modeling | 0.8088 |
+| Tree-Only Ensemble | Combined tree predictions | 0.8134 |
+| Hybrid Tree + LSTM | Combined architecture evaluated | 0.8134 |
 
-The project includes saved model artifacts and a hybrid prediction pipeline combining tree-based and sequential predictions.
+XGBoost achieved the highest standalone ROC-AUC in the reported evaluation.
+
+The LSTM processes historical customer sequences to model temporal financial behavior.
+
+---
 
 ## Behavioral Feature Engineering
 
-The feature engineering module contains transformations including:
+EarlyShield explores four feature configurations:
 
-- Lag features
-- Rolling statistics
-- Month-to-month changes
-- Utilization trends
-- Financial burden ratios
-- Persistence indicators
+| Feature Set | Features | Test ROC-AUC |
+|---|---:|---:|
+| Raw financial features | 15 | 0.8154 |
+| Raw + lag/delta features | 55 | **0.8172** |
+| Raw + rolling/persistence features | 33 | 0.8152 |
+| Full engineered feature set | 73 | 0.8165 |
 
-Examples include credit utilization changes, repayment burden, and historical financial stress patterns.
+The feature-ablation study uses LightGBM to evaluate how different feature groups affect predictive performance.
 
-The engineered feature set is broader than the subset of features used by the saved trained models.
+### Feature Categories
 
-## Prediction Workflow
+**Lag features:** Previous-month financial indicators.
 
-1. Load historical customer financial records.
-2. Incorporate current financial inputs.
-3. Generate behavioral features.
-4. Prepare tabular and sequential model inputs.
-5. Generate predictions from tree models and LSTM.
-6. Combine model predictions using a hybrid ensemble.
-7. Apply probability calibration.
-8. Calculate risk category and expected loss.
+**Delta features:** Changes in financial indicators between periods.
 
-## Explainability
+**Rolling statistics:** Historical means, variability and trends.
 
-The project includes SHAP-based analysis to help interpret model behavior, including feature importance and waterfall visualizations.
+**Persistence indicators:** Whether risk signals continue across consecutive months.
 
-The current dashboard uses pre-generated explanations. Generating explanations dynamically for each selected customer is a future improvement.
+**Financial ratios:** Measures such as EMI-to-income and debt burden.
+
+The 55-feature configuration achieved the strongest test ROC-AUC in the reported feature-ablation experiment.
+
+---
+
+## Model Validation and Leakage Prevention
+
+EarlyShield includes a customer-grouped evaluation pipeline designed to prevent the same customer's records from appearing across training and testing partitions.
+
+| Dataset | Split | Customers |
+|---|---:|---:|
+| Training | 70% | 10,500 |
+| Validation | 15% | 2,250 |
+| Testing | 15% | 2,250 |
+
+The validation methodology separates model fitting, ensemble selection, probability calibration, and final evaluation.
+
+Earlier evaluation leakage issues are documented in:
+
+- `reports/data_leakage_audit.md`
+- `reports/validation_methodology.md`
+
+This separation is important because repeated observations of the same customer can otherwise inflate performance estimates.
+
+---
+
+## Probability Calibration
+
+The project evaluates probability calibration to improve the interpretation of predicted delinquency probabilities.
+
+Reported calibration results:
+
+| Metric | Before | After |
+|---|---:|---:|
+| Expected Calibration Error | 0.1177 | 0.0237 |
+
+This represents an approximately **80% reduction in ECE** in the reported experiment.
+
+See `reports/calibration_report.md` for details.
+
+---
+
+## Explainable AI with SHAP
+
+EarlyShield includes SHAP-based model explanations to help understand which financial variables influence predictions.
+
+Generated visualizations include:
+
+- Global feature importance
+- SHAP summary plot
+- High-risk customer waterfall plot
+- Low-risk customer waterfall plot
+
+### SHAP Visualizations
+
+![Global SHAP Feature Importance](reports/shap/shap_bar.png)
+
+![SHAP Summary](reports/shap/shap_summary.png)
+
+![High-Risk Customer Explanation](reports/shap/shap_waterfall_high_risk.png)
+
+The existing dashboard displays pre-generated SHAP explanations. Customer-specific dynamic explanations are a future improvement.
+
+---
 
 ## Streamlit Dashboard
 
-The dashboard code supports:
+The interactive dashboard supports:
 
 - Customer selection
-- Historical financial behavior visualization
-- Financial input controls
-- Delinquency risk estimation
+- Historical financial record visualization
+- Current-month financial input
+- Delinquency probability prediction
 - Risk categorization
-- Expected loss calculation
-- Display of SHAP explanations
+- Expected loss estimation
+- SHAP visualization display
 
-## Repository Structure
+### Prediction Workflow
 
-```text
-earlysheild/
-├── app.py
-├── feature_engineering.py
-├── predictor.py
-├── model_loader.py
-├── risk_engine.py
-├── inference.py
-├── test_ui.py
-├── notebook/
-│   └── model_training.ipynb
-├── content/
-│   └── models/
-├── sample_data/
-├── financial_stress_full_bank_grade_dataset.csv
-├── requirements.txt
-├── .gitignore
-└── README.md
-```
+1. Select a customer.
+2. Review historical financial behavior.
+3. Enter current financial indicators.
+4. Generate model predictions.
+5. Combine and calibrate probability estimates.
+6. Display the predicted risk and supporting analysis.
 
-## Installation
+---
 
-Clone the repository:
+## Expected Loss Estimation
 
-```bash
-git clone https://github.com/divyamjain015/earlysheild.git
-cd earlysheild
-```
+EarlyShield estimates expected financial loss using:
 
-Create and activate a virtual environment on Windows:
-
-```powershell
-python -m venv venv
-.\venv\Scripts\Activate.ps1
-```
-
-Install dependencies:
-
-```bash
-pip install -r requirements.txt
-```
-
-Launch the dashboard:
-
-```bash
-python -m streamlit run app.py
-```
-
-Open `http://localhost:8501` if the browser does not open automatically.
-
-**Note:** The project requires compatible Python and library versions, along with its saved model artifacts. Installation and end-to-end execution are being verified.
-
-## Risk Metrics
-
-### Probability of Delinquency
-
-The model generates a probability score between 0 and 1.
-
-### Expected Loss
-
-\[
-EL = PD \times LGD \times EAD
-\]
+**Expected Loss = PD × LGD × EAD**
 
 Where:
 
@@ -180,43 +245,171 @@ Where:
 - **LGD:** Loss Given Default
 - **EAD:** Exposure at Default
 
-Expected loss values in this prototype are illustrative and depend on the selected assumptions.
+These calculations are illustrative and depend on assumed risk parameters.
 
-## Evaluation Status
+---
 
-The repository contains a training notebook and model artifacts. A reproducible evaluation using a clean, independent test set is planned.
+## Performance Optimization
 
-Final ROC-AUC and performance optimization claims will be documented once they have been independently verified.
+The project includes preprocessing and inference benchmarks.
 
-## Tech Stack
+### Preprocessing Optimization
 
-**Language:** Python
+The original rolling trend calculation used repeated polynomial fitting.
 
-**Machine Learning:** XGBoost, LightGBM, CatBoost, Scikit-learn
+The optimized implementation uses a vectorized analytical slope calculation.
 
-**Deep Learning:** PyTorch
+| Metric | Value |
+|---|---:|
+| Original preprocessing time | 3.27 s (estimated) |
+| Optimized preprocessing time | 0.0146 s (measured) |
+| Calculated speedup | Approximately 224× |
+| Reported memory reduction | 11.3% |
 
-**Data Processing:** Pandas, NumPy
+### Batch Inference
 
-**Explainability:** SHAP
+The benchmark reports:
 
-**Dashboard:** Streamlit
+- Batch throughput: approximately **238,897 customers/second**
+- Batch latency: approximately **0.004 ms/customer**
 
-**Visualization:** Matplotlib
+These results reflect the reported benchmark workload and hardware, not end-to-end dashboard request latency.
+
+See `reports/optimization_comparison.md` and `reports/inference_benchmark.md`.
+
+---
+
+## Project Structure
+
+```text
+earlysheild/
+|
+├── app.py
+├── predictor.py
+├── model_loader.py
+├── feature_engineering.py
+├── risk_engine.py
+├── inference.py
+├── test_ui.py
+|
+├── content/
+│   └── models/
+|
+├── notebook/
+│   └── model_training.ipynb
+|
+├── sample_data/
+|
+├── reports/
+│   ├── raw_metrics.json
+│   ├── model_comparison.md
+│   ├── calibration_report.md
+│   ├── feature_ablation_report.md
+│   ├── data_leakage_audit.md
+│   ├── validation_methodology.md
+│   ├── inference_benchmark.md
+│   ├── optimization_comparison.md
+│   └── shap/
+|
+├── validation_pipeline/
+│   ├── execute_experiments.py
+│   ├── run_functional_tests.py
+│   └── run_optimization_benchmark.py
+|
+├── financial_stress_full_bank_grade_dataset.csv
+├── requirements.txt
+├── .gitignore
+└── README.md
+```
+
+---
+
+## Installation
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/divyamjain015/earlysheild.git
+cd earlysheild
+```
+
+### 2. Create a virtual environment
+
+```powershell
+python -m venv venv
+.\venv\Scripts\Activate.ps1
+```
+
+### 3. Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+### 4. Launch the dashboard
+
+```bash
+python -m streamlit run app.py
+```
+
+Open:
+
+`http://localhost:8501`
+
+**Note:** Python 3.10 was used in the reported evaluation environment. Compatible dependencies and saved model artifacts are required.
+
+---
+
+## Testing and Reproducibility
+
+The repository includes validation scripts for:
+
+- Model comparison
+- Feature ablation
+- Probability calibration
+- Functional tests
+- Preprocessing optimization
+- Inference benchmarking
+
+Reported test outcomes and methodology are available in the `reports/` directory.
+
+The evaluation scripts and saved results are provided to support inspection and reproduction.
+
+---
+
+## Technology Stack
+
+| Category | Technologies |
+|---|---|
+| Programming | Python |
+| Data Processing | Pandas, NumPy |
+| Machine Learning | Scikit-learn, XGBoost, LightGBM, CatBoost |
+| Deep Learning | PyTorch |
+| Explainability | SHAP |
+| Dashboard | Streamlit |
+| Visualization | Matplotlib, Plotly |
+| Version Control | Git, GitHub |
+
+---
 
 ## Future Improvements
 
-- Independent model evaluation and benchmark reporting
-- Customer-specific SHAP explanations
-- Automated tests and continuous integration
-- Model monitoring and drift detection
-- API-based inference
-- Deployment and containerization
+- Dynamic customer-specific SHAP explanations
+- FastAPI-based inference endpoints
+- Docker containerization
+- Model drift monitoring
+- Automated retraining and CI/CD
+- Real-world data validation with appropriate privacy safeguards
+- Production-grade model governance
 
-## Acknowledgments
+---
 
-Built upon the original pre-delinquency risk engine codebase. Original commit attribution is preserved in the Git history. Subsequent improvements and validation are tracked through new commits.
+## Project Provenance
+
+This repository builds upon the original pre-delinquency risk engine codebase. The original commit attribution is preserved in Git history.
+
+Subsequent validation, documentation, benchmarking and engineering changes are tracked through repository commits.
 
 ## Disclaimer
 
-EarlyShield is an educational machine learning prototype using synthetic financial data. Its predictions are not intended for actual credit approval, lending, or financial decision-making.
+EarlyShield is a research and educational prototype developed using **100% synthetic customer data**. Reported results are experimental and do not establish suitability for real-world credit, lending or banking decisions.

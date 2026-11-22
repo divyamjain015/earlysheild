@@ -1,0 +1,363 @@
+{
+  "system_specs": {
+    "os": "Windows 11",
+    "cpu_cores": 14,
+    "ram_gb": 15.43,
+    "cuda_available": false,
+    "python_version": "3.10.0"
+  },
+  "feature_ablation": [
+    {
+      "Feature Set": "Set A: Raw Features Only",
+      "Feature Count": 15,
+      "Val ROC-AUC": 0.8126,
+      "Test ROC-AUC": 0.8154,
+      "Test PR-AUC": 0.6872,
+      "Test Precision": 0.6163,
+      "Test Recall": 0.7297,
+      "Test F1-Score": 0.6682,
+      "Fit Time (s)": 0.19
+    },
+    {
+      "Feature Set": "Set B: Raw + Lag/Delta Features",
+      "Feature Count": 55,
+      "Val ROC-AUC": 0.8111,
+      "Test ROC-AUC": 0.8172,
+      "Test PR-AUC": 0.689,
+      "Test Precision": 0.6166,
+      "Test Recall": 0.7303,
+      "Test F1-Score": 0.6686,
+      "Fit Time (s)": 0.28
+    },
+    {
+      "Feature Set": "Set C: Raw + Rolling/Persistence Stats",
+      "Feature Count": 33,
+      "Val ROC-AUC": 0.8121,
+      "Test ROC-AUC": 0.8152,
+      "Test PR-AUC": 0.6871,
+      "Test Precision": 0.6167,
+      "Test Recall": 0.7303,
+      "Test F1-Score": 0.6687,
+      "Fit Time (s)": 0.23
+    },
+    {
+      "Feature Set": "Set D: Full Engineered Behavioral Features",
+      "Feature Count": 73,
+      "Val ROC-AUC": 0.8118,
+      "Test ROC-AUC": 0.8165,
+      "Test PR-AUC": 0.6881,
+      "Test Precision": 0.6164,
+      "Test Recall": 0.7291,
+      "Test F1-Score": 0.668,
+      "Fit Time (s)": 0.36
+    }
+  ],
+  "model_comparison_test": [
+    {
+      "Model": "Logistic Regression Baseline",
+      "Test ROC-AUC": 0.8072,
+      "Test PR-AUC": 0.6937,
+      "Accuracy": 0.7471,
+      "Precision": 0.6306,
+      "Recall": 0.7632,
+      "F1-Score": 0.6906,
+      "Specificity": 0.7377,
+      "Balanced Acc": 0.7504,
+      "MCC": 0.4863,
+      "FPR": 0.2623,
+      "FNR": 0.2368,
+      "Train Time (s)": 0.35,
+      "Inference Latency (ms/cust)": 0.001,
+      "Model Size (KB)": 1.3,
+      "Parameters": 74
+    },
+    {
+      "Model": "Random Forest Baseline",
+      "Test ROC-AUC": 0.81,
+      "Test PR-AUC": 0.7204,
+      "Accuracy": 0.7493,
+      "Precision": 0.6304,
+      "Recall": 0.7788,
+      "F1-Score": 0.6968,
+      "Specificity": 0.732,
+      "Balanced Acc": 0.7554,
+      "MCC": 0.4951,
+      "FPR": 0.268,
+      "FNR": 0.2212,
+      "Train Time (s)": 1.68,
+      "Inference Latency (ms/cust)": 0.013,
+      "Model Size (KB)": 1171.9,
+      "Parameters": 25500
+    },
+    {
+      "Model": "XGBoost",
+      "Test ROC-AUC": 0.8137,
+      "Test PR-AUC": 0.7211,
+      "Accuracy": 0.7467,
+      "Precision": 0.6272,
+      "Recall": 0.7764,
+      "F1-Score": 0.6939,
+      "Specificity": 0.7292,
+      "Balanced Acc": 0.7528,
+      "MCC": 0.4899,
+      "FPR": 0.2708,
+      "FNR": 0.2236,
+      "Train Time (s)": 0.58,
+      "Inference Latency (ms/cust)": 0.003,
+      "Model Size (KB)": 371.1,
+      "Parameters": 4650
+    },
+    {
+      "Model": "LightGBM",
+      "Test ROC-AUC": 0.8135,
+      "Test PR-AUC": 0.7222,
+      "Accuracy": 0.7458,
+      "Precision": 0.6257,
+      "Recall": 0.7776,
+      "F1-Score": 0.6935,
+      "Specificity": 0.7271,
+      "Balanced Acc": 0.7524,
+      "MCC": 0.4889,
+      "FPR": 0.2729,
+      "FNR": 0.2224,
+      "Train Time (s)": 0.56,
+      "Inference Latency (ms/cust)": 0.003,
+      "Model Size (KB)": 673.8,
+      "Parameters": 4650
+    },
+    {
+      "Model": "CatBoost",
+      "Test ROC-AUC": 0.8117,
+      "Test PR-AUC": 0.7176,
+      "Accuracy": 0.7489,
+      "Precision": 0.6295,
+      "Recall": 0.78,
+      "F1-Score": 0.6967,
+      "Specificity": 0.7306,
+      "Balanced Acc": 0.7553,
+      "MCC": 0.4948,
+      "FPR": 0.2694,
+      "FNR": 0.22,
+      "Train Time (s)": 1.51,
+      "Inference Latency (ms/cust)": 0.002,
+      "Model Size (KB)": 1074.2,
+      "Parameters": 4800
+    },
+    {
+      "Model": "PyTorch LSTM (Sequential)",
+      "Test ROC-AUC": 0.8088,
+      "Test PR-AUC": 0.7122,
+      "Accuracy": 0.7484,
+      "Precision": 0.6911,
+      "Recall": 0.5781,
+      "F1-Score": 0.6296,
+      "Specificity": 0.8484,
+      "Balanced Acc": 0.7133,
+      "MCC": 0.4454,
+      "FPR": 0.1516,
+      "FNR": 0.4219,
+      "Train Time (s)": 3.04,
+      "Inference Latency (ms/cust)": 0.002,
+      "Model Size (KB)": 73.2,
+      "Parameters": 20801
+    },
+    {
+      "Model": "Tree-Only Ensemble (XGB+LGB+CAT)",
+      "Test ROC-AUC": 0.8134,
+      "Test PR-AUC": 0.7209,
+      "Accuracy": 0.7484,
+      "Precision": 0.6291,
+      "Recall": 0.7788,
+      "F1-Score": 0.696,
+      "Specificity": 0.7306,
+      "Balanced Acc": 0.7547,
+      "MCC": 0.4936,
+      "FPR": 0.2694,
+      "FNR": 0.2212,
+      "Train Time (s)": 2.65,
+      "Inference Latency (ms/cust)": 0.009,
+      "Model Size (KB)": 2119.1,
+      "Parameters": 14100
+    },
+    {
+      "Model": "Hybrid Tree + LSTM Model",
+      "Test ROC-AUC": 0.8134,
+      "Test PR-AUC": 0.7209,
+      "Accuracy": 0.7484,
+      "Precision": 0.6291,
+      "Recall": 0.7788,
+      "F1-Score": 0.696,
+      "Specificity": 0.7306,
+      "Balanced Acc": 0.7547,
+      "MCC": 0.4936,
+      "FPR": 0.2694,
+      "FNR": 0.2212,
+      "Train Time (s)": 5.69,
+      "Inference Latency (ms/cust)": 0.01,
+      "Model Size (KB)": 2192.4,
+      "Parameters": 34901
+    }
+  ],
+  "threshold_analysis": {
+    "validation_optimal_f1_threshold": 0.55,
+    "validation_optimal_f1": 0.6745435016111708,
+    "validation_optimal_cost_threshold": 0.25,
+    "test_metrics_at_default_0_50": {
+      "ROC-AUC": 0.8134179708690464,
+      "PR-AUC": 0.720926540440149,
+      "Accuracy": 0.7484444444444445,
+      "Precision": 0.629126213592233,
+      "Recall": 0.7788461538461539,
+      "F1-Score": 0.6960257787325457,
+      "Specificity": 0.7306064880112835,
+      "Balanced Accuracy": 0.7547263209287187,
+      "MCC": 0.49363400527622064,
+      "FPR": 0.2693935119887165,
+      "FNR": 0.22115384615384615,
+      "TN": 1036,
+      "FP": 382,
+      "FN": 184,
+      "TP": 648
+    },
+    "test_metrics_at_optimal_f1": {
+      "ROC-AUC": 0.8134179708690464,
+      "PR-AUC": 0.720926540440149,
+      "Accuracy": 0.7471111111111111,
+      "Precision": 0.6282926829268293,
+      "Recall": 0.7740384615384616,
+      "F1-Score": 0.6935918147549811,
+      "Specificity": 0.731311706629055,
+      "Balanced Accuracy": 0.7526750840837583,
+      "MCC": 0.48984898904140517,
+      "FPR": 0.268688293370945,
+      "FNR": 0.22596153846153846,
+      "TN": 1037,
+      "FP": 381,
+      "FN": 188,
+      "TP": 644
+    },
+    "test_metrics_at_optimal_cost": {
+      "ROC-AUC": 0.8134179708690464,
+      "PR-AUC": 0.720926540440149,
+      "Accuracy": 0.596,
+      "Precision": 0.4764237599510104,
+      "Recall": 0.9350961538461539,
+      "F1-Score": 0.631237322515213,
+      "Specificity": 0.39703808180535965,
+      "Balanced Accuracy": 0.6660671178257568,
+      "MCC": 0.3593997313918242,
+      "FPR": 0.6029619181946403,
+      "FNR": 0.06490384615384616,
+      "TN": 563,
+      "FP": 855,
+      "FN": 54,
+      "TP": 778
+    }
+  },
+  "calibration_comparison": [
+    {
+      "Method": "Uncalibrated Hybrid",
+      "Brier Score": 0.17917,
+      "Log Loss": 0.54002,
+      "ECE (Expected Calibration Error)": 0.11772,
+      "Mean Predicted PD": 0.4875,
+      "Actual Observed Default Rate": 0.3698
+    },
+    {
+      "Method": "Platt / Sigmoid Calibrated",
+      "Brier Score": 0.16485,
+      "Log Loss": 0.50318,
+      "ECE (Expected Calibration Error)": 0.02865,
+      "Mean Predicted PD": 0.3672,
+      "Actual Observed Default Rate": 0.3698
+    },
+    {
+      "Method": "Isotonic Calibrated",
+      "Brier Score": 0.16557,
+      "Log Loss": 0.51857,
+      "ECE (Expected Calibration Error)": 0.02373,
+      "Mean Predicted PD": 0.3665,
+      "Actual Observed Default Rate": 0.3698
+    }
+  ],
+  "inference_benchmark": [
+    {
+      "Batch Size": 1,
+      "Total Latency (ms)": 1.51,
+      "Median Latency (ms)": 1.25,
+      "P95 Latency (ms)": 2.24,
+      "Latency per Customer (ms)": 1.512,
+      "Throughput (Customers/sec)": 661.2
+    },
+    {
+      "Batch Size": 10,
+      "Total Latency (ms)": 1.6,
+      "Median Latency (ms)": 1.53,
+      "P95 Latency (ms)": 1.85,
+      "Latency per Customer (ms)": 0.16,
+      "Throughput (Customers/sec)": 6259.3
+    },
+    {
+      "Batch Size": 50,
+      "Total Latency (ms)": 2.02,
+      "Median Latency (ms)": 2.0,
+      "P95 Latency (ms)": 2.45,
+      "Latency per Customer (ms)": 0.04,
+      "Throughput (Customers/sec)": 24773.1
+    },
+    {
+      "Batch Size": 100,
+      "Total Latency (ms)": 2.25,
+      "Median Latency (ms)": 2.02,
+      "P95 Latency (ms)": 3.03,
+      "Latency per Customer (ms)": 0.022,
+      "Throughput (Customers/sec)": 44541.2
+    },
+    {
+      "Batch Size": 500,
+      "Total Latency (ms)": 4.61,
+      "Median Latency (ms)": 4.69,
+      "P95 Latency (ms)": 5.64,
+      "Latency per Customer (ms)": 0.009,
+      "Throughput (Customers/sec)": 108346.0
+    },
+    {
+      "Batch Size": 1000,
+      "Total Latency (ms)": 4.71,
+      "Median Latency (ms)": 4.61,
+      "P95 Latency (ms)": 5.34,
+      "Latency per Customer (ms)": 0.005,
+      "Throughput (Customers/sec)": 212168.3
+    },
+    {
+      "Batch Size": 2250,
+      "Total Latency (ms)": 9.42,
+      "Median Latency (ms)": 9.14,
+      "P95 Latency (ms)": 10.4,
+      "Latency per Customer (ms)": 0.004,
+      "Throughput (Customers/sec)": 238897.6
+    }
+  ],
+  "top_5_risk_drivers_shap": [
+    {
+      "feature": "salary_delay_days",
+      "mean_abs_shap": 1.09356
+    },
+    {
+      "feature": "emi_to_income_ratio",
+      "mean_abs_shap": 0.10828
+    },
+    {
+      "feature": "weekly_balance_change_pct",
+      "mean_abs_shap": 0.07695
+    },
+    {
+      "feature": "atm_withdrawal_amount",
+      "mean_abs_shap": 0.06698
+    },
+    {
+      "feature": "atm_withdrawal_amount_lag1",
+      "mean_abs_shap": 0.03101
+    }
+  ]
+}

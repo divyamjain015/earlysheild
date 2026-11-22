@@ -1,0 +1,5 @@
+Feature Set,Feature Count,Val ROC-AUC,Test ROC-AUC,Test PR-AUC,Test Precision,Test Recall,Test F1-Score,Fit Time (s)
+Set A: Raw Features Only,15,0.8126,0.8154,0.6872,0.6163,0.7297,0.6682,0.19
+Set B: Raw + Lag/Delta Features,55,0.8111,0.8172,0.689,0.6166,0.7303,0.6686,0.28
+Set C: Raw + Rolling/Persistence Stats,33,0.8121,0.8152,0.6871,0.6167,0.7303,0.6687,0.23
+Set D: Full Engineered Behavioral Features,73,0.8118,0.8165,0.6881,0.6164,0.7291,0.668,0.36

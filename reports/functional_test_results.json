@@ -1,0 +1,82 @@
+[
+  {
+    "id": "TC-01",
+    "category": "Financial Risk Engine",
+    "name": "Expected Loss Mathematical Verification",
+    "status": "PASSED",
+    "duration_ms": 0.204,
+    "details": "Verified expected behavior without error."
+  },
+  {
+    "id": "TC-02",
+    "category": "Financial Risk Engine",
+    "name": "Risk Bucket Boundary Classification",
+    "status": "PASSED",
+    "duration_ms": 0.003,
+    "details": "Verified expected behavior without error."
+  },
+  {
+    "id": "TC-03",
+    "category": "Financial Risk Engine",
+    "name": "Zero Income/EMI Boundary in Expected Loss",
+    "status": "PASSED",
+    "duration_ms": 0.003,
+    "details": "Verified expected behavior without error."
+  },
+  {
+    "id": "TC-04",
+    "category": "Sequence Preprocessing",
+    "name": "Insufficient History Zero-Padding (< 3 Months)",
+    "status": "PASSED",
+    "duration_ms": 1072.343,
+    "details": "Verified expected behavior without error."
+  },
+  {
+    "id": "TC-05",
+    "category": "Input Robustness",
+    "name": "Missing Feature Column Alignment via Reindexing",
+    "status": "PASSED",
+    "duration_ms": 0.293,
+    "details": "Verified expected behavior without error."
+  },
+  {
+    "id": "TC-06",
+    "category": "Risk Engine Boundaries",
+    "name": "Probability Floor (0.01) and Cap (0.95) Enforcement",
+    "status": "PASSED",
+    "duration_ms": 0.035,
+    "details": "Verified expected behavior without error."
+  },
+  {
+    "id": "TC-07",
+    "category": "UI / Integration",
+    "name": "Detection of test_ui.py vs app.py Selector Incompatibility",
+    "status": "PASSED",
+    "duration_ms": 6.536,
+    "details": "Verified expected behavior without error."
+  },
+  {
+    "id": "TC-08",
+    "category": "Configuration Integrity",
+    "name": "Original model_metrics.json Double-Brace Syntax Error Detection",
+    "status": "PASSED",
+    "duration_ms": 0.553,
+    "details": "Verified expected behavior without error."
+  },
+  {
+    "id": "TC-09",
+    "category": "Explainability System",
+    "name": "SHAP Diagnostic Plot File Generation & Persistence",
+    "status": "PASSED",
+    "duration_ms": 0.31,
+    "details": "Verified expected behavior without error."
+  },
+  {
+    "id": "TC-10",
+    "category": "Input Validation / Safety",
+    "name": "Negative Income/EMI Sanity Guardrail Check (Identified Vulnerability)",
+    "status": "PASSED",
+    "duration_ms": 0.007,
+    "details": "Verified expected behavior without error."
+  }
+]

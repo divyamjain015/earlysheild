@@ -1,0 +1,21 @@
+{
+  "preprocessing_optimization": {
+    "original_method": "np.polyfit inside rolling.apply",
+    "optimized_method": "Vectorized closed-form analytic slope formula (y_t - y_{t-2})/2",
+    "original_time_est_seconds": 3.27,
+    "optimized_time_actual_seconds": 0.0146,
+    "speedup_factor": 224.4
+  },
+  "memory_optimization": {
+    "baseline_ram_mb": 36.38,
+    "optimized_ram_mb": 32.26,
+    "reduction_percentage": 11.3
+  },
+  "inference_vectorization": {
+    "single_customer_latency_ms": 1.512,
+    "batch_latency_per_customer_ms": 0.004,
+    "single_throughput_per_sec": 661.2,
+    "batch_throughput_per_sec": 238897.6,
+    "throughput_gain_factor": 378.0
+  }
+}

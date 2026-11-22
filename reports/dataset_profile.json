@@ -1,0 +1,316 @@
+{
+  "total_records": 90000,
+  "unique_customers": 15000,
+  "num_features": 17,
+  "columns": [
+    "customer_id",
+    "month",
+    "customer_segment",
+    "region_tier",
+    "product_type",
+    "active_products_count",
+    "credit_card_utilization",
+    "total_monthly_obligation",
+    "emi_amount",
+    "days_to_emi",
+    "emi_to_income_ratio",
+    "salary_delay_days",
+    "weekly_balance_change_pct",
+    "atm_withdrawal_amount",
+    "monthly_income",
+    "risk_level_latent",
+    "loan_default_observed"
+  ],
+  "duplicate_records": 0,
+  "missing_values": {
+    "customer_id": 0,
+    "month": 0,
+    "customer_segment": 0,
+    "region_tier": 0,
+    "product_type": 0,
+    "active_products_count": 0,
+    "credit_card_utilization": 0,
+    "total_monthly_obligation": 0,
+    "emi_amount": 0,
+    "days_to_emi": 0,
+    "emi_to_income_ratio": 0,
+    "salary_delay_days": 0,
+    "weekly_balance_change_pct": 0,
+    "atm_withdrawal_amount": 0,
+    "monthly_income": 0,
+    "risk_level_latent": 0,
+    "loan_default_observed": 0
+  },
+  "missing_percentages": {
+    "customer_id": 0.0,
+    "month": 0.0,
+    "customer_segment": 0.0,
+    "region_tier": 0.0,
+    "product_type": 0.0,
+    "active_products_count": 0.0,
+    "credit_card_utilization": 0.0,
+    "total_monthly_obligation": 0.0,
+    "emi_amount": 0.0,
+    "days_to_emi": 0.0,
+    "emi_to_income_ratio": 0.0,
+    "salary_delay_days": 0.0,
+    "weekly_balance_change_pct": 0.0,
+    "atm_withdrawal_amount": 0.0,
+    "monthly_income": 0.0,
+    "risk_level_latent": 0.0,
+    "loan_default_observed": 0.0
+  },
+  "records_per_customer": {
+    "min": 6,
+    "max": 6,
+    "mean": 6.0,
+    "std": 0.0,
+    "exact_distribution": {
+      "6": 15000
+    }
+  },
+  "temporal_coverage": {
+    "min_month": "2024-01",
+    "max_month": "2024-06",
+    "unique_months": [
+      "2024-01",
+      "2024-02",
+      "2024-03",
+      "2024-04",
+      "2024-05",
+      "2024-06"
+    ],
+    "monthly_record_counts": {
+      "2024-01": 15000,
+      "2024-02": 15000,
+      "2024-03": 15000,
+      "2024-04": 15000,
+      "2024-05": 15000,
+      "2024-06": 15000
+    }
+  },
+  "target_class_distribution": {
+    "target_column": "loan_default_observed",
+    "non_delinquent_count": 62353,
+    "delinquent_count": 27647,
+    "delinquency_percentage": 30.71888888888889,
+    "non_delinquency_percentage": 69.28111111111112,
+    "imbalance_ratio": 2.2553260751618622
+  },
+  "next_month_target_distribution": {
+    "target_column": "loan_default_next_month",
+    "valid_records": 75000,
+    "dropped_due_to_shift_nan": 15000,
+    "non_delinquent_count": 51010,
+    "delinquent_count": 23990,
+    "delinquency_percentage": 31.986666666666668,
+    "imbalance_ratio": 2.1263026260942057
+  },
+  "categorical_breakdowns": {
+    "customer_segment": {
+      "counts": {
+        "salaried": 62694,
+        "self_employed": 27306
+      },
+      "proportions": {
+        "salaried": 0.6966,
+        "self_employed": 0.3034
+      },
+      "delinquency_rate": {
+        "salaried": 0.30786040131432035,
+        "self_employed": 0.3056471105251593
+      }
+    },
+    "region_tier": {
+      "counts": {
+        "tier_1": 35328,
+        "tier_2": 32094,
+        "tier_3": 22578
+      },
+      "proportions": {
+        "tier_1": 0.39253333333333335,
+        "tier_2": 0.3566,
+        "tier_3": 0.2508666666666667
+      },
+      "delinquency_rate": {
+        "tier_1": 0.304885643115942,
+        "tier_2": 0.30052346232940735,
+        "tier_3": 0.3202675170519975
+      }
+    },
+    "product_type": {
+      "counts": {
+        "personal_loan": 30078,
+        "credit_card": 30030,
+        "bnpl": 29892
+      },
+      "proportions": {
+        "personal_loan": 0.3342,
+        "credit_card": 0.33366666666666667,
+        "bnpl": 0.33213333333333334
+      },
+      "delinquency_rate": {
+        "bnpl": 0.3070721263214238,
+        "credit_card": 0.30692640692640694,
+        "personal_loan": 0.30756699248620256
+      }
+    }
+  },
+  "numerical_features": {
+    "active_products_count": {
+      "mean": 1.6902,
+      "std": 0.7089637118870893,
+      "min": 1.0,
+      "q25": 1.0,
+      "median": 2.0,
+      "q75": 2.0,
+      "max": 3.0,
+      "skewness": 0.5249905006303839,
+      "kurtosis": -0.8950572561867158,
+      "iqr_outliers_count": 0,
+      "iqr_outliers_pct": 0.0
+    },
+    "credit_card_utilization": {
+      "mean": 0.49421292848880655,
+      "std": 0.1862421947468712,
+      "min": 0.2000390278247707,
+      "q25": 0.35036899601675964,
+      "median": 0.4766235274088124,
+      "q75": 0.5855412644906595,
+      "max": 0.9498525495973636,
+      "skewness": 0.5805601650430975,
+      "kurtosis": -0.31404680224294834,
+      "iqr_outliers_count": 690,
+      "iqr_outliers_pct": 0.7666666666666666
+    },
+    "total_monthly_obligation": {
+      "mean": 23238.511828953855,
+      "std": 13042.881434571236,
+      "min": 2467.1913374327364,
+      "q25": 12698.62061831604,
+      "median": 20802.602151175437,
+      "q75": 31529.562172089987,
+      "max": 65478.74770788971,
+      "skewness": 0.6676911348836031,
+      "kurtosis": -0.3013952827335178,
+      "iqr_outliers_count": 222,
+      "iqr_outliers_pct": 0.24666666666666665
+    },
+    "emi_amount": {
+      "mean": 21141.520933333333,
+      "std": 12308.389081209041,
+      "min": 2139.0,
+      "q25": 11270.75,
+      "median": 18580.0,
+      "q75": 28969.0,
+      "max": 59555.0,
+      "skewness": 0.7194576717299708,
+      "kurtosis": -0.2425669089555056,
+      "iqr_outliers_count": 336,
+      "iqr_outliers_pct": 0.37333333333333335
+    },
+    "days_to_emi": {
+      "mean": 16.9868,
+      "std": 4.326870873726901,
+      "min": 10.0,
+      "q25": 13.0,
+      "median": 17.0,
+      "q75": 21.0,
+      "max": 24.0,
+      "skewness": 0.004392092899958658,
+      "kurtosis": -1.2107911363051695,
+      "iqr_outliers_count": 0,
+      "iqr_outliers_pct": 0.0
+    },
+    "emi_to_income_ratio": {
+      "mean": 0.24881598398964588,
+      "std": 0.08655039457303038,
+      "min": 0.1000062137102063,
+      "q25": 0.17354306256127167,
+      "median": 0.24816109380759727,
+      "q75": 0.32303234648522633,
+      "max": 0.3999819115020236,
+      "skewness": 0.023510037676533962,
+      "kurtosis": -1.1988130754887842,
+      "iqr_outliers_count": 0,
+      "iqr_outliers_pct": 0.0
+    },
+    "salary_delay_days": {
+      "mean": 7.827544444444444,
+      "std": 7.933287993134164,
+      "min": 0.0,
+      "q25": 2.0,
+      "median": 5.0,
+      "q75": 12.0,
+      "max": 29.0,
+      "skewness": 1.1288763772474102,
+      "kurtosis": 0.20032088113573998,
+      "iqr_outliers_count": 2205,
+      "iqr_outliers_pct": 2.45
+    },
+    "weekly_balance_change_pct": {
+      "mean": -7.99235286577064,
+      "std": 12.563395131304281,
+      "min": -39.9981428346502,
+      "q25": -17.419003889749828,
+      "median": -4.950288093215075,
+      "q75": 1.9696215259700363,
+      "max": 9.999862615159904,
+      "skewness": -0.7137712651577641,
+      "kurtosis": -0.4468451763265091,
+      "iqr_outliers_count": 0,
+      "iqr_outliers_pct": 0.0
+    },
+    "atm_withdrawal_amount": {
+      "mean": 42089.86739112119,
+      "std": 24966.36549572286,
+      "min": 6081.323423305882,
+      "q25": 23444.254246458433,
+      "median": 36044.207278711816,
+      "q75": 56630.19889390643,
+      "max": 135689.8291867479,
+      "skewness": 0.9224855137287427,
+      "kurtosis": 0.2866534701066952,
+      "iqr_outliers_count": 1443,
+      "iqr_outliers_pct": 1.6033333333333333
+    },
+    "monthly_income": {
+      "mean": 85000.84913333334,
+      "std": 37473.057779313756,
+      "min": 20000.0,
+      "q25": 52480.0,
+      "median": 85347.0,
+      "q75": 117452.25,
+      "max": 149988.0,
+      "skewness": -0.008576897107635846,
+      "kurtosis": -1.2033227951656034,
+      "iqr_outliers_count": 0,
+      "iqr_outliers_pct": 0.0
+    }
+  },
+  "dataset_provenance": {
+    "is_synthetic": true,
+    "source": "Cell 0 of notebook/model_training.ipynb synthetic generation script",
+    "simulation_parameters": {
+      "latent_risk_levels": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "risk_level_probabilities": [
+        0.5,
+        0.25,
+        0.15,
+        0.1
+      ],
+      "base_default_probabilities": [
+        0.03,
+        0.08,
+        0.22,
+        0.45
+      ],
+      "pressure_multiplier_equation": "1 + 1.5*(obligation/income) + 0.02*salary_delay - 0.01*max(balance_change, 0)"
+    }
+  }
+}

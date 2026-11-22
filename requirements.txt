@@ -5,11 +5,10 @@ scikit-learn
 xgboost
 lightgbm
 catboost
-tensorflow
+torch
 shap
 joblib
 matplotlib
 seaborn
-plotlygit add requirements.txt
-git commit -m "Add project dependencies"
-git push
+plotlygit 
+
